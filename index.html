@@ -6,7 +6,36 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Understanding TypeScript</title>
   <script src="dist/bundle.js" defer></script>
+  <style>
+    *{
+      font-family: sans-serif;
+    }
+    #map{
+width: 90%;
+height: 20rem;
+border: 1px solid #ccc;
+margin: 2rem auto;
+display: flex;
+justify-content: center;
+align-items: center;
+text-align: center;
+}
+
+form{
+    text-align: center;
+    margin: 2rem auto;
+
+}
+  </style>
 </head>
 <body>
+  <div id="map">
+  <P>Please enter an address</P>
+  </div>
+
+  <form>
+    <input type="text" id="address">
+    <button type="submit">Search address</button>
+  </form>
 </body>
 </html>
