@@ -34,8 +34,10 @@
 
 
 //FORM
+import axios from "axios"
 
 const form = document.querySelector('form')!
+const GOOGLE_API_KEY = "api key";
 const addressInput = document.getElementById('address')!as HTMLInputElement
 
 
@@ -43,9 +45,33 @@ function searchAddressHandler(event: Event){
     event.preventDefault()
 
     let enteredAddress = addressInput.value
+    type GoogleGeocodingResponse = {
+        results: {geometry:{location:{lat:number, lng:number}}}[]
+        status: 'ok'
+    }
 
     //SEND THIS TO GOOGLE API
-    
+    axios.get<GoogleGeocodingResponse >(
+        `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURI(
+          enteredAddress
+        )}&key=${GOOGLE_API_KEY}`
+      ).then(response =>{
+        if(response.data.status != 'ok'){
+            throw new Error("could not fetch")
+        }
+        const cordinates = response.data.results[0].geometry.location
+        const map = new google.maps.Map(document.getElementById("map")!, {
+            center: cordinates,
+            zoom:16
+
+        })
+
+        new google.maps.Marker({position:cordinates, map:map})
+      })
+   .catch( err =>{
+    alert(err.message)
+    console.log(err)
+   })
 }
 
 
